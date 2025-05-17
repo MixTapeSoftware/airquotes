@@ -1,25 +1,35 @@
 class QuotesController < ApplicationController
   def index
+    @quotes = Quote.order(created_at: :desc)
+  end
+
+  def destroy
+    @quote = Quote.find(params[:id])
+    @quote.destroy
+    respond_to do |format|
+      format.html { redirect_to quotes_path, notice: "Quote was successfully deleted." }
+      format.json { head :no_content }
+    end
   end
 
   def upload
     if params[:quote] && params[:quote][:document]
       file = params[:quote][:document]
       result = FileUploaderService.upload(file)
-
-      if result
-        Quote.create!(
-          name: result[:original_filename],
-          path: result[:uuid_filename]
-        )
+        if result
+          Quote.create!(
+            name: result[:original_filename],
+            filename: result[:uuid_filename]
+          )
 
         render json: {
           filename: result[:original_filename],
-          path: result[:uuid_filename]
+          path: result[:uuid_filename],
+          filepath: result[:filepath]
         }
-      else
+        else
         render json: { error: "Invalid file" }, status: :unprocessable_entity
-      end
+        end
     else
       render json: { error: "No file uploaded" }, status: :unprocessable_entity
     end

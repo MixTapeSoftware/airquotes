@@ -69,15 +69,17 @@ end
 # App Gems
 
 
+
 gem "pg", "~> 1.5.9"
+gem "temporalio"
+gem "font-awesome-rails", "~> 4.7"
 
 group :development do
   gem "tidewave"
   gem "rubocop"
+  gem "rubocop-rails"
 end
 
 group :test do
   gem "factory_bot"
 end
-
-gem "tailwindcss-rails", "~> 4.2"

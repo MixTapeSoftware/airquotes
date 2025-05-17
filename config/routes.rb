@@ -13,7 +13,7 @@ Rails.application.routes.draw do
   root "quotes#index"
 
   # Quotes routes
-  resources :quotes, only: [ :index ] do
+  resources :quotes, only: [ :index, :destroy ] do
     collection do
       post :upload
     end

@@ -10,15 +10,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_05_17_160425) do
+ActiveRecord::Schema[8.0].define(version: 2025_05_17_195451) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
 
   create_table "quotes", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.string "path"
+    t.string "filename"
     t.string "name"
-    t.text "md"
+    t.text "parsed_result"
     t.jsonb "structured"
     t.string "reference_url"
     t.datetime "created_at", null: false

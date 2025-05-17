@@ -77,4 +77,29 @@ export default class extends Controller {
     `;
     uploadedFiles.prepend(fileElement);
   }
+
+  deleteQuote(event) {
+    event.preventDefault();
+    const link = event.currentTarget;
+    const quoteId = link.dataset.quoteId;
+
+    if (!confirm("Are you sure?")) return;
+
+    fetch(link.href, {
+      method: "DELETE",
+      headers: {
+        "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
+          .content,
+        Accept: "application/json",
+      },
+    }).then((response) => {
+      if (response.ok) {
+        // Remove the quote row from the DOM
+        const row = document.getElementById(`quote-${quoteId}`);
+        if (row) row.remove();
+      } else {
+        alert("Failed to delete quote.");
+      }
+    });
+  }
 }
