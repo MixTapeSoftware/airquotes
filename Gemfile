@@ -68,4 +68,16 @@ end
 
 # App Gems
 
+
 gem "pg", "~> 1.5.9"
+
+group :development do
+  gem "tidewave"
+  gem "rubocop"
+end
+
+group :test do
+  gem "factory_bot"
+end
+
+gem "tailwindcss-rails", "~> 4.2"
