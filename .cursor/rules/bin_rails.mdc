@@ -1,0 +1,11 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+## General Rules
+
+Always Use bin/rails
+- Use `bin/rails` instead of just `rails`
+- Ensures consistent environment
+- Uses project-specific binstubs
