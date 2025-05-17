@@ -1,3 +1,7 @@
+# [Local] File Upload Service
+#
+# For the purposes of this demo we're loading locally.
+# In a production service we would likely use a cloud provider.
 class FileUploaderService
   def self.upload(file)
     return nil unless file.present?

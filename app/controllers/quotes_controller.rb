@@ -8,7 +8,7 @@ class QuotesController < ApplicationController
       result = FileUploaderService.upload(file)
 
       if result
-        quote = Quote.create!(
+        Quote.create!(
           name: result[:original_filename],
           path: result[:uuid_filename]
         )

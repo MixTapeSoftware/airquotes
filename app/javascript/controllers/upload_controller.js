@@ -70,11 +70,10 @@ export default class extends Controller {
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
         </svg>
         <div class="flex flex-col">
-          <span class="text-sm text-gray-200">${data.filename}</span>
-          <span class="text-xs text-gray-400">UUID: ${data.path}</span>
+          <span class="text-md text-gray-200">${data.filename}</span>
         </div>
       </div>
-      <span class="text-xs text-gray-400">${new Date().toLocaleDateString()}</span>
+      <span class="text-sm text-gray-400">${new Date().toLocaleDateString()}</span>
     `;
     uploadedFiles.prepend(fileElement);
   }
