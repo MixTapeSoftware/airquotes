@@ -6,12 +6,11 @@ class LlamaCloudService
 
   class << self
     def process_document(file_path)
+      raise "File not found: #{file_path}" unless File.exist?(file_path)
+
       job_id = upload(file_path)
       wait_for_completion(job_id)
       get_result(job_id)
-    rescue => e
-      Rails.logger.error "LlamaCloud Error: #{e.message}"
-      nil
     end
 
     private
@@ -21,7 +20,7 @@ class LlamaCloudService
           [ "file", file, { filename: File.basename(file_path), content_type: "application/pdf" } ]
         ]
 
-        response = post("upload", form_data)
+        response = JSON.parse(post("upload", form_data))
         response["id"] or raise "No id in response: #{response.inspect}"
       end
 
@@ -31,21 +30,17 @@ class LlamaCloudService
 
         loop do
           attempt += 1
-          response = get("job/#{job_id}")
+          response = JSON.parse(get("job/#{job_id}"))
           status = response["status"]
-
-          Rails.logger.debug "LlamaCloud: Job status check ##{attempt}: #{status}"
 
           break if status == "SUCCESS"
 
           if status == "FAILED"
             error_details = response["error"] || "unknown error"
-            Rails.logger.error "LlamaCloud: Job failed - #{error_details}"
             raise "Job failed: #{error_details}"
           end
 
           if attempt >= max_attempts
-            Rails.logger.error "LlamaCloud: Job timed out after #{max_attempts} attempts"
             raise "Job timed out after #{max_attempts} attempts (#{max_attempts * 1.5} seconds)"
           end
 
@@ -54,7 +49,7 @@ class LlamaCloudService
       end
 
       def get_result(job_id)
-        api_call(:get, "job/#{job_id}/result/markdown", raw: true)
+        get("job/#{job_id}/result/markdown")
       end
 
       def get(path)
@@ -65,9 +60,8 @@ class LlamaCloudService
         api_call(:post, path, form_data: form_data)
       end
 
-      def api_call(method, path, form_data: nil, raw: false)
+      def api_call(method, path, form_data: nil)
         uri = URI("#{BASE_URL}/#{path}")
-
         http = Net::HTTP.new(uri.host, uri.port).tap { |h| h.use_ssl = true }
 
         req = method == :get ? Net::HTTP::Get.new(uri) : Net::HTTP::Post.new(uri)
@@ -82,9 +76,7 @@ class LlamaCloudService
           raise "HTTP Error #{res.code}: #{res.body[0..500]}"
         end
 
-        raw ? res.body : JSON.parse(res.body)
-      rescue JSON::ParserError => e
-        raise "Invalid JSON response: #{e.message}"
+        res.body
       end
   end
 end

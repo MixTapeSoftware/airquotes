@@ -16,21 +16,29 @@ class QuotesController < ApplicationController
     if params[:quote] && params[:quote][:document]
       file = params[:quote][:document]
       result = FileUploaderService.upload(file)
-        if result
-          quote = Quote.create!(
-            name: result[:original_filename],
-            filename: result[:uuid_filename]
-          )
+
+
+      if result
+        quote = Quote.create!(
+          name: result[:original_filename],
+          filename: result[:uuid_filename]
+        )
+
+        workflow_handle = QuoteProcessorWorkflow.run(quote.id)
+        workflow_id = workflow_handle.id
+        Rails.logger.info "Started workflow with ID: #{workflow_id}"
+
 
         render json: {
           id: quote.id,
           filename: result[:original_filename],
           path: result[:uuid_filename],
-          filepath: result[:filepath]
+          filepath: result[:filepath],
+          workflow_id: workflow_id
         }
-        else
+      else
         render json: { error: "Invalid file" }, status: :unprocessable_entity
-        end
+      end
     else
       render json: { error: "No file uploaded" }, status: :unprocessable_entity
     end

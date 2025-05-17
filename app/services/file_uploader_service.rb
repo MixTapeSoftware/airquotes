@@ -47,7 +47,7 @@ class FileUploaderService
 
     # Convert a UUID filename to its full path
     def path_for(uuid_filename)
-      upload_path.join(uuid_filename)
+      upload_path.join(uuid_filename).to_path
     end
   end
 end
