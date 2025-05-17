@@ -1,0 +1,16 @@
+<%# Quote Item Partial - Used in both the upload form and the quotes list %>
+<div id="quote-<%= quote.id %>" class="flex items-center justify-between p-3 bg-gray-700 rounded-lg">
+  <div class="flex items-center space-x-3">
+    <button class="text-red-400 hover:text-red-200 delete-quote-link bg-transparent border-0 p-0 cursor-pointer" data-action="upload#deleteQuote" data-quote-id="<%= quote.id %>" type="submit" form="delete-quote-<%= quote.id %>">
+      <i class="fa fa-times-circle fa-lg"></i>
+    </button>
+    <form id="delete-quote-<%= quote.id %>" action="<%= quote_path(quote) %>" method="post" class="hidden">
+      <input type="hidden" name="_method" value="delete">
+      <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+    </form>
+    <div class="flex flex-col">
+      <span class="text-md text-gray-200"><%= quote.name %></span>
+    </div>
+  </div>
+  <span class="text-sm text-gray-400"><%= quote.created_at.to_date %></span>
+</div>

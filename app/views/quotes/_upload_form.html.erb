@@ -1,5 +1,5 @@
 <%# File Upload Form with Drag and Drop %>
-<div class="max-w-2xl mx-auto p-6 ">
+<div class="max-w-2xl mx-auto p-6">
   <div class="bg-gray-800 rounded-lg shadow-lg p-6">
     <h2 class="text-2xl font-bold mb-4 mt-0 pt-0">Upload Quotes</h2>
 
@@ -25,28 +25,11 @@
       </div>
     </div>
 
-
     <div class="mt-8">
       <h3 class="text-lg font-semibold mb-4">Uploaded Files</h3>
       <div id="uploaded-files" class="space-y-2">
         <% @quotes.each do |quote| %>
-        <div id="quote-<%= quote.id %>" class="flex items-center justify-between p-3 bg-gray-700 rounded-lg">
-          <div class="flex items-center space-x-3">
-            <%= button_to quote_path(quote), 
-      method: :delete,
-      class: "text-red-400 hover:text-red-200 delete-quote-link bg-transparent border-0 p-0 cursor-pointer",
-      data: { 
-        action: "upload#deleteQuote",
-        quote_id: quote.id
-      } do %>
-            <i class="fa fa-times-circle fa-lg"></i>
-            <% end %>
-            <div class="flex flex-col">
-              <span class="text-md text-gray-200"><%= quote.name %></span>
-            </div>
-          </div>
-          <span class="text-sm text-gray-400"><%= quote.created_at.to_date %></span>
-        </div>
+        <%= render 'quote_item', quote: quote %>
         <% end %>
       </div>
     </div>

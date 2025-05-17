@@ -20,7 +20,6 @@ export default class extends Controller {
   drop(event) {
     event.preventDefault();
     this.dropZone.classList.remove("border-blue-500");
-
     const files = event.dataTransfer.files;
     this.handleFiles(files);
   }
@@ -28,7 +27,6 @@ export default class extends Controller {
   handleFiles(event) {
     const files = event.target?.files || event;
     if (!files.length) return;
-
     Array.from(files).forEach((file) => {
       this.uploadFile(file);
     });
@@ -59,47 +57,61 @@ export default class extends Controller {
     }
   }
 
-  addFileToList(data) {
+  async addFileToList(data) {
     const uploadedFiles = document.getElementById("uploaded-files");
-    const fileElement = document.createElement("div");
-    fileElement.className =
-      "flex items-center justify-between p-3 bg-gray-700 rounded-lg";
-    fileElement.innerHTML = `
-      <div class="flex items-center space-x-3">
-        <svg class="h-6 w-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-        </svg>
-        <div class="flex flex-col">
-          <span class="text-md text-gray-200">${data.filename}</span>
-        </div>
-      </div>
-      <span class="text-sm text-gray-400">${new Date().toLocaleDateString()}</span>
-    `;
-    uploadedFiles.prepend(fileElement);
+
+    try {
+      const response = await fetch(`/quotes/${data.id}/quote_item`, {
+        headers: {
+          Accept: "text/html",
+        },
+      });
+
+      if (response.ok) {
+        const html = await response.text();
+        const tempDiv = document.createElement("div");
+        tempDiv.innerHTML = html;
+        const fileElement = tempDiv.firstElementChild;
+        uploadedFiles.prepend(fileElement);
+      } else {
+        console.error("Failed to fetch quote item HTML");
+      }
+    } catch (error) {
+      console.error("Error fetching quote item HTML:", error);
+    }
   }
 
   deleteQuote(event) {
     event.preventDefault();
-    const link = event.currentTarget;
-    const quoteId = link.dataset.quoteId;
+    const button = event.currentTarget;
+    const quoteId = button.dataset.quoteId;
 
     if (!confirm("Are you sure?")) return;
 
-    fetch(link.href, {
-      method: "DELETE",
-      headers: {
-        "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
-          .content,
-        Accept: "application/json",
-      },
-    }).then((response) => {
-      if (response.ok) {
-        // Remove the quote row from the DOM
-        const row = document.getElementById(`quote-${quoteId}`);
-        if (row) row.remove();
-      } else {
-        alert("Failed to delete quote.");
-      }
-    });
+    // Get the associated form using the form attribute
+    const formId = button.getAttribute("form");
+    const form = document.getElementById(formId);
+
+    if (form) {
+      form.submit();
+    } else {
+      // Fallback to fetch if form isn't found
+      fetch(`/quotes/${quoteId}`, {
+        method: "DELETE",
+        headers: {
+          "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
+            .content,
+          Accept: "application/json",
+        },
+      }).then((response) => {
+        if (response.ok) {
+          // Remove the quote row from the DOM
+          const row = document.getElementById(`quote-${quoteId}`);
+          if (row) row.remove();
+        } else {
+          alert("Failed to delete quote.");
+        }
+      });
+    }
   }
 }

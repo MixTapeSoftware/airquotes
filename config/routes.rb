@@ -17,5 +17,8 @@ Rails.application.routes.draw do
     collection do
       post :upload
     end
+    member do
+      get :quote_item
+    end
   end
 end

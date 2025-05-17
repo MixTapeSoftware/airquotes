@@ -17,12 +17,13 @@ class QuotesController < ApplicationController
       file = params[:quote][:document]
       result = FileUploaderService.upload(file)
         if result
-          Quote.create!(
+          quote = Quote.create!(
             name: result[:original_filename],
             filename: result[:uuid_filename]
           )
 
         render json: {
+          id: quote.id,
           filename: result[:original_filename],
           path: result[:uuid_filename],
           filepath: result[:filepath]
@@ -33,5 +34,10 @@ class QuotesController < ApplicationController
     else
       render json: { error: "No file uploaded" }, status: :unprocessable_entity
     end
+  end
+
+  def quote_item
+    @quote = Quote.find(params[:id])
+    render partial: "quote_item", locals: { quote: @quote }, formats: [ :html ]
   end
 end
