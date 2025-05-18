@@ -7,15 +7,13 @@ class QuoteProcessorWorkflow < Temporalio::Workflow::Definition
 
   class << self
     def run(quote_id)
-      # This is like Sidekiq's perform_async - it returns immediately
-      handle = client.execute_workflow(
+      handle = client.start_workflow(
         QuoteProcessorWorkflow,
         quote_id,
         id: SecureRandom.uuid,
         task_queue: "quote-parse"
       )
 
-      # Return just the ID, not the handle
       handle.id
     end
 
@@ -48,7 +46,8 @@ class QuoteProcessorWorkflow < Temporalio::Workflow::Definition
       initial_interval: 1,
       backoff_coefficient: 2.0,
       max_interval: 100,
-      max_attempts: 3
+      max_attempts: 3,
+      non_retryable_error_types: [ "ActiveRecord::RecordNotFound" ]
     )
   end
 end

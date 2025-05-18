@@ -24,9 +24,7 @@ class QuotesController < ApplicationController
           filename: result[:uuid_filename]
         )
 
-        workflow_handle = QuoteProcessorWorkflow.run(quote.id)
-        workflow_id = workflow_handle.id
-        Rails.logger.info "Started workflow with ID: #{workflow_id}"
+        workflow_id = QuoteProcessorWorkflow.run(quote.id)
 
 
         render json: {
