@@ -1,0 +1,296 @@
+{
+  "title": "HVAC Estimate",
+  "description": "Schema for extracting information from HVAC system estimates and proposals",
+  "type": "object",
+  "properties": {
+    "company_information": {
+      "type": "object",
+      "description": "Information about the HVAC company providing the estimate",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of the HVAC company"
+        },
+        "address": {
+          "type": "string",
+          "description": "Address of the HVAC company",
+          "nullable": true
+        },
+        "phone": {
+          "type": "string",
+          "description": "Phone number of the HVAC company",
+          "nullable": true
+        },
+        "email": {
+          "type": "string",
+          "description": "Email address of the HVAC company",
+          "nullable": true
+        },
+        "license_number": {
+          "type": "string",
+          "description": "Contractor license number",
+          "nullable": true
+        },
+        "website": {
+          "type": "string",
+          "description": "Website of the HVAC company",
+          "nullable": true
+        }
+      },
+      "required": ["name"]
+    },
+    "customer_zip_code": {
+      "type": "string",
+      "description": "Customer's zip code for location-based analysis",
+      "nullable": true
+    },
+    "estimate_information": {
+      "type": "object",
+      "description": "Basic information about the estimate itself",
+      "properties": {
+        "estimate_number": {
+          "type": "string",
+          "description": "Unique identifier or reference number for the estimate",
+          "nullable": true
+        },
+        "date": {
+          "type": "string",
+          "description": "Date when the estimate was created",
+          "nullable": true
+        }
+      }
+    },
+    "system_specifications": {
+      "type": "object",
+      "description": "Details about the HVAC system being proposed",
+      "properties": {
+        "system_type": {
+          "type": "string",
+          "description": "Type of HVAC system (e.g., heat pump, split system)",
+          "nullable": true
+        },
+        "brand": {
+          "type": "string",
+          "description": "Brand of the HVAC equipment",
+          "nullable": true
+        },
+        "model_numbers": {
+          "type": "array",
+          "description": "Model numbers of the equipment components",
+          "items": {
+            "type": "string"
+          },
+          "nullable": true
+        },
+        "size": {
+          "type": "string",
+          "description": "Size/capacity of the system (e.g., 3 ton)",
+          "nullable": true
+        },
+        "seer_rating": {
+          "type": "string",
+          "description": "SEER (Seasonal Energy Efficiency Ratio) rating of the system",
+          "nullable": true
+        },
+        "stages": {
+          "type": "string",
+          "description": "Staging information (e.g., 2-stage cooling, variable speed)",
+          "nullable": true
+        },
+        "thermostat": {
+          "type": "string",
+          "description": "Type or model of thermostat included",
+          "nullable": true
+        }
+      }
+    },
+    "warranty_information": {
+      "type": "object",
+      "description": "Details about warranties included with the system",
+      "properties": {
+        "parts_warranty": {
+          "type": "string",
+          "description": "Warranty coverage for parts",
+          "nullable": true
+        },
+        "labor_warranty": {
+          "type": "string",
+          "description": "Warranty coverage for labor",
+          "nullable": true
+        },
+        "compressor_warranty": {
+          "type": "string",
+          "description": "Warranty coverage for the compressor",
+          "nullable": true
+        },
+        "additional_warranties": {
+          "type": "array",
+          "description": "Additional warranty information",
+          "items": {
+            "type": "string"
+          },
+          "nullable": true
+        }
+      }
+    },
+    "scope_of_work": {
+      "type": "array",
+      "description": "Description of the work to be performed",
+      "items": {
+        "type": "string"
+      },
+      "nullable": true
+    },
+    "pricing": {
+      "type": "object",
+      "description": "Pricing information for the estimate",
+      "properties": {
+        "subtotal": {
+          "type": "number",
+          "description": "Subtotal amount before discounts, rebates, and taxes",
+          "nullable": true
+        },
+        "discounts": {
+          "type": "array",
+          "description": "Discounts applied to the estimate",
+          "items": {
+            "type": "object",
+            "properties": {
+              "description": {
+                "type": "string",
+                "description": "Description of the discount"
+              },
+              "amount": {
+                "type": "number",
+                "description": "Amount of the discount"
+              }
+            }
+          },
+          "nullable": true
+        },
+        "rebates": {
+          "type": "array",
+          "description": "Rebates applied to the estimate",
+          "items": {
+            "type": "object",
+            "properties": {
+              "description": {
+                "type": "string",
+                "description": "Description of the rebate"
+              },
+              "amount": {
+                "type": "number",
+                "description": "Amount of the rebate"
+              }
+            }
+          },
+          "nullable": true
+        },
+        "tax": {
+          "type": "number",
+          "description": "Tax amount",
+          "nullable": true
+        },
+        "total": {
+          "type": "number",
+          "description": "Total amount after all discounts, rebates, and taxes"
+        }
+      },
+      "required": ["total"]
+    },
+    "financing_options": {
+      "type": "object",
+      "description": "Information about financing options",
+      "properties": {
+        "term_months": {
+          "type": "integer",
+          "description": "Financing term in months",
+          "nullable": true
+        },
+        "interest_rate": {
+          "type": "number",
+          "description": "Financing interest rate",
+          "nullable": true
+        },
+        "estimated_payment": {
+          "type": "number",
+          "description": "Estimated monthly payment amount",
+          "nullable": true
+        }
+      },
+      "nullable": true
+    },
+    "included_items": {
+      "type": "array",
+      "description": "Items or services specifically included in the estimate",
+      "items": {
+        "type": "string"
+      },
+      "nullable": true
+    },
+    "excluded_items": {
+      "type": "array",
+      "description": "Items or services specifically excluded from the estimate",
+      "items": {
+        "type": "string"
+      },
+      "nullable": true
+    },
+    "optional_items": {
+      "type": "array",
+      "description": "Optional items or services that can be added to the estimate",
+      "items": {
+        "type": "object",
+        "properties": {
+          "description": {
+            "type": "string",
+            "description": "Description of the optional item"
+          },
+          "price": {
+            "type": "number",
+            "description": "Price of the optional item"
+          }
+        }
+      },
+      "nullable": true
+    },
+    "cancellation_policy": {
+      "type": "string",
+      "description": "Description of the cancellation policy",
+      "nullable": true
+    },
+    "alternative_options": {
+      "type": "array",
+      "description": "Alternative system options presented in the estimate",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Name or identifier for this option"
+          },
+          "description": {
+            "type": "string",
+            "description": "Description of this system option",
+            "nullable": true
+          },
+          "equipment": {
+            "type": "array",
+            "description": "Equipment included in this option",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "price": {
+            "type": "number",
+            "description": "Total price for this option"
+          }
+        },
+        "required": ["name", "price"]
+      },
+      "nullable": true
+    }
+  },
+  "required": ["company_information", "pricing"]
+}

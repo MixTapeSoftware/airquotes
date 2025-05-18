@@ -1,0 +1,13 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+ Code Style Rules
+
+   - Do not include comments in code suggestions or edits unless explicitly requested.
+
+
+   Before generating code, state which Cursor rules are relevant and how you will follow them.
+
+   List the relevant rules you are following at the top of your code suggestion
