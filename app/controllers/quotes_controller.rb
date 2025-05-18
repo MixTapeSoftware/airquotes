@@ -17,7 +17,6 @@ class QuotesController < ApplicationController
       file = params[:quote][:document]
       result = FileUploaderService.upload(file)
 
-
       if result
         quote = Quote.create!(
           name: result[:original_filename],
@@ -25,7 +24,6 @@ class QuotesController < ApplicationController
         )
 
         workflow_id = QuoteProcessorWorkflow.run(quote.id)
-
 
         render json: {
           id: quote.id,
