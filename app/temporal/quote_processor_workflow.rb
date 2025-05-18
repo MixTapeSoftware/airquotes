@@ -1,5 +1,7 @@
 require "temporalio/workflow"
 require "temporalio/activity"
+require_relative "activities/structure_quote"
+require_relative "activities/parse_quote"
 
 class QuoteProcessorWorkflow < Temporalio::Workflow::Definition
   require "temporalio/client"
@@ -25,15 +27,27 @@ class QuoteProcessorWorkflow < Temporalio::Workflow::Definition
   def execute(quote_id)
     puts "Starting workflow for quote #{quote_id}"
     begin
-      result = Temporalio::Workflow.execute_activity(
+      # First structure the quote
+      structure_result = Temporalio::Workflow.execute_activity(
+        StructureQuote,
+        quote_id,
+        schedule_to_close_timeout: 300,
+        start_to_close_timeout: 300,
+        retry_policy: retry_policy
+      )
+      puts "StructureQuote activity completed: #{structure_result.inspect}"
+
+      # Then parse the quote
+      parse_result = Temporalio::Workflow.execute_activity(
         ParseQuote,
         quote_id,
         schedule_to_close_timeout: 300,
         start_to_close_timeout: 300,
         retry_policy: retry_policy
       )
-      puts "Workflow received activity result: #{result.inspect}"
-      result
+      puts "ParseQuote activity completed: #{parse_result.inspect}"
+
+      parse_result
     rescue => e
       puts "Workflow encountered error: #{e.message}"
       puts e.backtrace.join("\n")
