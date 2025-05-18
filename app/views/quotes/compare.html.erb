@@ -16,7 +16,9 @@
     <% else %>
     <% datas = @quotes.map { |q| q.structured && q.structured["data"] } %>
     <% sections = datas.compact.flat_map(&:keys).uniq - ["quoted_packages"] %>
-    <div class="bg-white shadow overflow-hidden sm:rounded-lg mb-8">
+
+    <%# Quoted Packages Section %>
+    <div class="bg-white shadow overflow-hidden sm:rounded-lg">
       <div class="px-6 py-4 border-b border-gray-200">
         <h2 class="text-xl font-bold text-gray-900">Quoted Packages</h2>
       </div>
@@ -24,7 +26,6 @@
         <table class="min-w-full divide-y divide-gray-200">
           <thead class="bg-gray-50">
             <tr>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Packages</th>
               <% @quotes.each do |quote| %>
               <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"><%= quote.name %></th>
               <% end %>
@@ -32,7 +33,6 @@
           </thead>
           <tbody class="bg-white divide-y divide-gray-200">
             <tr>
-              <td class="px-6 py-4 font-medium text-gray-900 bg-gray-50">Packages</td>
               <% datas.each do |data| %>
               <td class="px-6 py-4 text-sm text-gray-500 align-top">
                 <% if data && data["quoted_packages"].present? %>
@@ -49,25 +49,24 @@
         </table>
       </div>
     </div>
-    <div class="bg-white shadow overflow-hidden sm:rounded-lg">
+
+    <%# Other Sections %>
+    <% sections.each do |section| %>
+    <div class="bg-white shadow overflow-hidden sm:rounded-lg mb-8">
+      <div class="px-6 py-4 border-b border-gray-200">
+        <h2 class="text-xl font-bold text-gray-900"><%= section.titleize %></h2>
+      </div>
       <div class="overflow-x-auto">
         <table class="min-w-full divide-y divide-gray-200">
           <thead class="bg-gray-50">
             <tr>
-              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Section</th>
               <% @quotes.each do |quote| %>
-              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                <%= quote.name %>
-              </th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"><%= quote.name %></th>
               <% end %>
             </tr>
           </thead>
           <tbody class="bg-white divide-y divide-gray-200">
-            <% sections.each do |section| %>
-            <tr class="hover:bg-gray-50">
-              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 bg-gray-50">
-                <%= section.titleize %>
-              </td>
+            <tr>
               <% datas.each do |data| %>
               <td class="px-6 py-4 text-sm text-gray-500">
                 <% if data && data[section].present? %>
@@ -78,11 +77,11 @@
               </td>
               <% end %>
             </tr>
-            <% end %>
           </tbody>
         </table>
       </div>
     </div>
+    <% end %>
     <% end %>
   </div>
 </div>
