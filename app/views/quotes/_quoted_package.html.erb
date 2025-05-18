@@ -1,0 +1,53 @@
+<div class="mb-2">
+  <div class="text-lg font-bold text-blue-900 mb-1"><%= package["description"] %></div>
+  <div><span class="font-semibold text-gray-800">System Type:</span> <span><%= package["system_type"] %></span></div>
+  <% if package["option_name"].present? %>
+  <div><span class="font-semibold text-gray-800">Option Name:</span> <span><%= package["option_name"] %></span></div>
+  <% end %>
+  <% if package["option_group"].present? %>
+  <div><span class="font-semibold text-gray-800">Option Group:</span> <span><%= package["option_group"] %></span></div>
+  <% end %>
+  <% if package["size"].present? %>
+  <div><span class="font-semibold text-gray-800">Size:</span> <span><%= package["size"] %></span></div>
+  <% end %>
+  <% if package["overall_efficiency_ratings"].present? %>
+  <div>
+    <span class="font-semibold text-gray-800">Efficiency Ratings:</span>
+    <ul class="ml-4">
+      <% package["overall_efficiency_ratings"].each do |k, v| %>
+      <% if v.present? %>
+      <li><span class="font-medium"><%= k %>:</span> <%= v %></li>
+      <% end %>
+      <% end %>
+    </ul>
+  </div>
+  <% end %>
+  <div class="mt-2 text-lg font-bold text-green-700">Package Price: <span class="bg-green-100 rounded px-2 py-1"><%= number_to_currency(package["package_price"]) %></span></div>
+</div>
+<% if package["equipment_list"].present? %>
+<div class="flex flex-wrap gap-2 mt-2">
+  <% package["equipment_list"].each do |equip| %>
+  <div class="bg-gray-50 border rounded-lg p-3 w-full sm:w-auto flex-1 min-w-[220px] max-w-xs shadow-sm">
+    <div class="font-semibold text-blue-900 mb-1"><%= equip["component_type"] %></div>
+    <div class="text-xs text-gray-600 mb-1"><%= equip["description"] %></div>
+    <div class="text-xs"><span class="font-medium">Model:</span> <%= equip["model_number"] %></div>
+    <% if equip["brand"].present? %><div class="text-xs"><span class="font-medium">Brand:</span> <%= equip["brand"] %></div><% end %>
+    <% if equip["size"].present? %><div class="text-xs"><span class="font-medium">Size:</span> <%= equip["size"] %></div><% end %>
+    <% if equip["stages"].present? %><div class="text-xs"><span class="font-medium">Stages:</span> <%= equip["stages"] %></div><% end %>
+    <% if equip["ahri_number"].present? %><div class="text-xs"><span class="font-medium">AHRI #:</span> <%= equip["ahri_number"] %></div><% end %>
+    <% if equip["efficiency_ratings"].present? %>
+    <div class="mt-1">
+      <div class="text-xs font-medium text-gray-700">Efficiency:</div>
+      <ul class="ml-2 text-xs">
+        <% equip["efficiency_ratings"].each do |k, v| %>
+        <% if v.present? %>
+        <li><span class="font-medium"><%= k %>:</span> <%= v %></li>
+        <% end %>
+        <% end %>
+      </ul>
+    </div>
+    <% end %>
+  </div>
+  <% end %>
+</div>
+<% end %>

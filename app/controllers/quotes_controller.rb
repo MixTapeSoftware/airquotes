@@ -3,6 +3,15 @@ class QuotesController < ApplicationController
     @quotes = Quote.order(created_at: :desc)
   end
 
+  def compare
+    Rails.logger.debug "Received quote_ids: #{params[:quote_ids].inspect}"
+    @quotes = Quote.where(id: params[:quote_ids]).order(created_at: :desc)
+    @sections = extract_comparison_sections(@quotes)
+
+    Rails.logger.debug "Found quotes: #{@quotes.map(&:id)}"
+    Rails.logger.debug "Found sections: #{@sections}"
+  end
+
   def destroy
     @quote = Quote.find(params[:id])
     @quote.destroy
@@ -43,5 +52,19 @@ class QuotesController < ApplicationController
   def quote_item
     @quote = Quote.find(params[:id])
     render partial: "quote_item", locals: { quote: @quote }, formats: [ :html ]
+  end
+
+  private
+
+  def extract_comparison_sections(quotes)
+    # Extract all unique sections from the structured data
+    sections = Set.new
+    quotes.each do |quote|
+      next unless quote.structured
+      quote.structured.each do |section, _|
+        sections.add(section)
+      end
+    end
+    sections.to_a.sort
   end
 end

@@ -16,6 +16,7 @@ Rails.application.routes.draw do
   resources :quotes, only: [ :index, :destroy ] do
     collection do
       post :upload
+      get :compare
     end
     member do
       get :quote_item
