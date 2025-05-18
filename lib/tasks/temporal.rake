@@ -3,6 +3,7 @@ require "temporalio/client"
 require "temporalio/worker"
 require_relative "../../app/temporal/quote_processor_workflow"
 require_relative "../../app/temporal/activities/parse_quote"
+require_relative "../../app/temporal/activities/structure_quote"
 
 namespace :temporal do
   desc "Start the Temporal worker"
@@ -14,7 +15,7 @@ namespace :temporal do
       client: client,
       task_queue: "quote-parse",
       workflows: [ QuoteProcessorWorkflow ],
-      activities: [ ParseQuote ]
+      activities: [ ParseQuote, StructureQuote ]
     )
 
     puts "Worker started, polling for tasks..."

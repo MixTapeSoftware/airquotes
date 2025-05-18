@@ -27,27 +27,31 @@ class QuoteProcessorWorkflow < Temporalio::Workflow::Definition
   def execute(quote_id)
     puts "Starting workflow for quote #{quote_id}"
     begin
-      # First structure the quote
-      structure_result = Temporalio::Workflow.execute_activity(
-        StructureQuote,
-        quote_id,
-        schedule_to_close_timeout: 300,
-        start_to_close_timeout: 300,
-        retry_policy: retry_policy
-      )
-      puts "StructureQuote activity completed: #{structure_result.inspect}"
 
-      # Then parse the quote
-      parse_result = Temporalio::Workflow.execute_activity(
-        ParseQuote,
-        quote_id,
-        schedule_to_close_timeout: 300,
-        start_to_close_timeout: 300,
-        retry_policy: retry_policy
-      )
-      puts "ParseQuote activity completed: #{parse_result.inspect}"
+      structured = Temporalio::Workflow::Future.new do
+        structure_result = Temporalio::Workflow.execute_activity(
+          StructureQuote,
+          quote_id,
+          schedule_to_close_timeout: 300,
+          start_to_close_timeout: 300,
+          retry_policy: retry_policy
+        )
+        puts "StructureQuote activity completed: #{structure_result.inspect}"
+      end
 
-      parse_result
+
+      parsed = Temporalio::Workflow::Future.new do
+        parse_result = Temporalio::Workflow.execute_activity(
+          ParseQuote,
+          quote_id,
+          schedule_to_close_timeout: 300,
+          start_to_close_timeout: 300,
+          retry_policy: retry_policy
+        )
+        puts "ParseQuote activity completed: #{parse_result.inspect}"
+      end
+
+    Temporalio::Workflow::Future.all_of(structured, parsed).wait
     rescue => e
       puts "Workflow encountered error: #{e.message}"
       puts e.backtrace.join("\n")
