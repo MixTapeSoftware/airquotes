@@ -68,11 +68,18 @@ end
 
 # App Gems
 
-
-
+# DB
 gem "pg", "~> 1.5.9"
+
+# Data Processing
 gem "temporalio"
+gem "ruby-openai", "~> 8.1"
+
+
+# UI
 gem "font-awesome-rails", "~> 4.7"
+gem "tailwindcss-ruby", "~> 4.1"
+gem "tailwindcss-rails", "~> 4.2"
 
 group :development do
   gem "tidewave"

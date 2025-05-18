@@ -9,6 +9,10 @@
  * Consider organizing styles into separate files for maintainability.
  */
 
+@import "tailwind";
+@import "font-awesome";
+@import "application";
+
 /*
  *= require font-awesome
  *= require_tree .
