@@ -1,7 +1,6 @@
 <%# File Upload Form with Drag and Drop %>
 <div class="max-w-7xl mx-auto p-6">
-  <div class="bg-gray-600 rounded-lg shadow-lg p-6">
-    <h2 class="text-2xl font-bold mb-4 mt-0 pt-0">Upload Quotes</h2>
+  <div class="p-6 w-full">
 
     <%# Drag and Drop Zone %>
     <div id="drop-zone" class="border-2 border-dashed border-gray-600 rounded-lg p-8 text-center cursor-pointer hover:border-blue-500 transition duration-200" data-controller="upload" data-action="dragover->upload#dragOver dragleave->upload#dragLeave drop->upload#drop">
@@ -28,7 +27,6 @@
     </div>
 
     <div class="mt-8">
-      <h3 class="text-lg font-semibold mb-4">Uploaded Files</h3>
       <div id="uploaded-files" class="space-y-2">
         <% @quotes.each do |quote| %>
         <%= render 'quote_item', quote: quote %>
