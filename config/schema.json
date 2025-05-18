@@ -60,49 +60,210 @@
         }
       }
     },
-    "system_specifications": {
-      "type": "object",
-      "description": "Details about the HVAC system being proposed",
-      "properties": {
-        "system_type": {
-          "type": "string",
-          "description": "Type of HVAC system (e.g., heat pump, split system)",
-          "nullable": true
-        },
-        "brand": {
-          "type": "string",
-          "description": "Brand of the HVAC equipment",
-          "nullable": true
-        },
-        "model_numbers": {
-          "type": "array",
-          "description": "Model numbers of the equipment components",
-          "items": {
-            "type": "string"
+    "quoted_packages": {
+      "type": "array",
+      "description": "Details about all heating and cooling system packages being proposed, including all alternatives.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "description": {
+            "type": "string",
+            "description": "Overall description of the equipment package"
           },
-          "nullable": true
+          "brand": {
+            "type": "string",
+            "description": "Primary brand of the HVAC package (if all components share the same brand)",
+            "nullable": true
+          },
+          "equipment_list": {
+            "type": "array",
+            "description": "Detailed list of all components that make up this system",
+            "items": {
+              "type": "object",
+              "properties": {
+                "component_type": {
+                  "type": "string",
+                  "description": "Type of component (e.g., 'Condenser', 'Air Handler', 'Furnace', 'Evaporator Coil')"
+                },
+                "model_number": {
+                  "type": "string",
+                  "description": "Model number of this specific component"
+                },
+                "ahri_number": {
+                  "type": "string",
+                  "description": "The Air-Conditioning, Heating, and Refrigeration Institute (AHRI) number for this component or matched system",
+                  "nullable": true
+                },
+                "brand": {
+                  "type": "string",
+                  "description": "Brand of this component",
+                  "nullable": true
+                },
+                "description": {
+                  "type": "string",
+                  "description": "Description of this component",
+                  "nullable": true
+                },
+                "efficiency_ratings": {
+                  "type": "object",
+                  "description": "Energy efficiency ratings for this component",
+                  "properties": {
+                    "SEER": {
+                      "type": "string",
+                      "description": "Seasonal Energy Efficiency Ratio rating for cooling efficiency",
+                      "nullable": true
+                    },
+                    "HSPF": {
+                      "type": "string",
+                      "description": "Heating Seasonal Performance Factor rating for heat pump heating efficiency",
+                      "nullable": true
+                    },
+                    "AFUE": {
+                      "type": "string",
+                      "description": "Annual Fuel Utilization Efficiency rating for furnace heating efficiency",
+                      "nullable": true
+                    },
+                    "EER": {
+                      "type": "string",
+                      "description": "Energy Efficiency Ratio for steady-state cooling efficiency",
+                      "nullable": true
+                    },
+                    "COP": {
+                      "type": "string",
+                      "description": "Coefficient of Performance for heat pump efficiency",
+                      "nullable": true
+                    }
+                  },
+                  "nullable": true
+                },
+                "size": {
+                  "type": "string",
+                  "description": "Size/capacity of this component (e.g., 3 ton for condenser, 80,000 BTU for furnace)",
+                  "nullable": true
+                },
+                "stages": {
+                  "type": "string",
+                  "description": "Staging information (e.g., 2-stage cooling, variable speed)",
+                  "nullable": true
+                },
+                "price": {
+                  "type": "number",
+                  "description": "Price for this specific component if individually listed",
+                  "nullable": true
+                }
+              },
+              "required": ["component_type", "model_number"]
+            },
+            "nullable": true
+          },
+          "system_type": {
+            "type": "string",
+            "description": "Type of HVAC system",
+            "enum": [
+              "Split System",
+              "Packaged System",
+              "Ductless Mini-Split System",
+              "Hybrid/Dual Fuel System",
+              "Geothermal System",
+              "Zoned System",
+              "Variable Refrigerant Flow (VRF) System",
+              "Other"
+            ]
+          },
+          "option_name": {
+            "type": "string",
+            "description": "Identifier for the option (e.g., 'Option 1', 'Good', 'Better', 'Best')",
+            "nullable": true
+          },
+          "option_group": {
+            "type": "string",
+            "description": "Group identifier to associate related options (e.g., 'Good/Better/Best' or 'Option Set A')",
+            "nullable": true
+          },
+          "size": {
+            "type": "string",
+            "description": "Overall size/capacity of the system (e.g., 3 ton)",
+            "nullable": true
+          },
+          "overall_efficiency_ratings": {
+            "type": "object",
+            "description": "Overall energy efficiency ratings for the combined system (as a whole)",
+            "properties": {
+              "SEER": {
+                "type": "string",
+                "description": "Seasonal Energy Efficiency Ratio rating for the system cooling efficiency",
+                "nullable": true
+              },
+              "HSPF": {
+                "type": "string",
+                "description": "Heating Seasonal Performance Factor rating for the system heating efficiency",
+                "nullable": true
+              },
+              "AFUE": {
+                "type": "string",
+                "description": "Annual Fuel Utilization Efficiency rating for the system heating efficiency",
+                "nullable": true
+              },
+              "EER": {
+                "type": "string",
+                "description": "Energy Efficiency Ratio for steady-state cooling efficiency",
+                "nullable": true
+              },
+              "COP": {
+                "type": "string",
+                "description": "Coefficient of Performance for the system efficiency",
+                "nullable": true
+              }
+            },
+            "nullable": true
+          },
+          "package_price": {
+            "type": "number",
+            "description": "Total price for this complete package"
+          }
         },
-        "size": {
-          "type": "string",
-          "description": "Size/capacity of the system (e.g., 3 ton)",
-          "nullable": true
-        },
-        "seer_rating": {
-          "type": "string",
-          "description": "SEER (Seasonal Energy Efficiency Ratio) rating of the system",
-          "nullable": true
-        },
-        "stages": {
-          "type": "string",
-          "description": "Staging information (e.g., 2-stage cooling, variable speed)",
-          "nullable": true
-        },
-        "thermostat": {
-          "type": "string",
-          "description": "Type or model of thermostat included",
-          "nullable": true
-        }
+        "required": ["description", "system_type", "package_price"]
       }
+    },
+    "additional_components": {
+      "type": "array",
+      "description": "Additional non-core components included in the estimate",
+      "items": {
+        "type": "object",
+        "properties": {
+          "model_number": {
+            "type": "string",
+            "description": "Model number of the component",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "description": "Description of the component"
+          },
+          "brand": {
+            "type": "string",
+            "description": "Brand of the component",
+            "nullable": true
+          },
+          "option_name": {
+            "type": "string",
+            "description": "Identifier for which option this component belongs to (e.g., 'Option 1', 'Good', 'Better', 'Best')",
+            "nullable": true
+          },
+          "option_group": {
+            "type": "string",
+            "description": "Group identifier to associate with a specific option group",
+            "nullable": true
+          },
+          "price": {
+            "type": "number",
+            "description": "Price for this specific component",
+            "nullable": true
+          }
+        },
+        "required": ["description"]
+      },
+      "nullable": true
     },
     "warranty_information": {
       "type": "object",
@@ -131,7 +292,8 @@
           },
           "nullable": true
         }
-      }
+      },
+      "nullable": true
     },
     "scope_of_work": {
       "type": "array",
@@ -199,24 +361,32 @@
       "required": ["total"]
     },
     "financing_options": {
-      "type": "object",
+      "type": "array",
       "description": "Information about financing options",
-      "properties": {
-        "term_months": {
-          "type": "integer",
-          "description": "Financing term in months",
-          "nullable": true
+      "items": {
+        "type": "object",
+        "properties": {
+          "term_months": {
+            "type": "integer",
+            "description": "Financing term in months"
+          },
+          "interest_rate": {
+            "type": "number",
+            "description": "Financing interest rate",
+            "nullable": true
+          },
+          "estimated_payment": {
+            "type": "number",
+            "description": "Estimated monthly payment amount",
+            "nullable": true
+          },
+          "option_name": {
+            "type": "string",
+            "description": "Identifier for which system option this financing applies to (if applicable)",
+            "nullable": true
+          }
         },
-        "interest_rate": {
-          "type": "number",
-          "description": "Financing interest rate",
-          "nullable": true
-        },
-        "estimated_payment": {
-          "type": "number",
-          "description": "Estimated monthly payment amount",
-          "nullable": true
-        }
+        "required": ["term_months"]
       },
       "nullable": true
     },
@@ -249,8 +419,14 @@
           "price": {
             "type": "number",
             "description": "Price of the optional item"
+          },
+          "option_name": {
+            "type": "string",
+            "description": "Identifier for which system option this optional item applies to (if applicable)",
+            "nullable": true
           }
-        }
+        },
+        "required": ["description", "price"]
       },
       "nullable": true
     },
@@ -259,35 +435,31 @@
       "description": "Description of the cancellation policy",
       "nullable": true
     },
-    "alternative_options": {
-      "type": "array",
-      "description": "Alternative system options presented in the estimate",
-      "items": {
-        "type": "object",
-        "properties": {
-          "name": {
-            "type": "string",
-            "description": "Name or identifier for this option"
-          },
-          "description": {
-            "type": "string",
-            "description": "Description of this system option",
-            "nullable": true
-          },
-          "equipment": {
-            "type": "array",
-            "description": "Equipment included in this option",
-            "items": {
-              "type": "string"
+    "option_identifier": {
+      "type": "object",
+      "description": "Information to help identify which options belong together",
+      "properties": {
+        "option_groups": {
+          "type": "array",
+          "description": "Groups of related options presented in the estimate",
+          "items": {
+            "type": "object",
+            "properties": {
+              "group_name": {
+                "type": "string",
+                "description": "Name of the option group (e.g., 'Good/Better/Best' or 'Option A/B')"
+              },
+              "system_indices": {
+                "type": "array",
+                "description": "Indices of the systems in the quoted_packages array that belong to this group",
+                "items": {
+                  "type": "integer"
+                }
+              }
             },
-            "nullable": true
-          },
-          "price": {
-            "type": "number",
-            "description": "Total price for this option"
+            "required": ["group_name", "system_indices"]
           }
-        },
-        "required": ["name", "price"]
+        }
       },
       "nullable": true
     }

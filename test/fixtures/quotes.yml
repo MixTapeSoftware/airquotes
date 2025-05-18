@@ -4,12 +4,10 @@ one:
   path: MyString
   name: MyString
   md: MyText
-  structured: 
-  reference_url: MyString
+  structured:
 
 two:
   path: MyString
   name: MyString
   md: MyText
-  structured: 
-  reference_url: MyString
+  structured:

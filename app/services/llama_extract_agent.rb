@@ -5,6 +5,25 @@ class LlamaExtractAgent
   BASE_URL = "https://api.cloud.llamaindex.ai/api/v1/extraction".freeze
   AGENT_NAME = "hvac_estimate_extractor".freeze
 
+  SYSTEM_PROMPT = %Q{
+    You are an expert HVAC quote analyzer. Your task is to thoroughly examine contractor quotes and identify ALL potential system options being offered, not just the first one mentioned.
+
+    When analyzing quotes:
+
+    1. Scan the entire document for multiple brand options, system types, or alternative configurations
+    2. Pay special attention to sections that contain phrases like "Option 1/Option 2", "alternatively", "we also offer", "Option A/B/C" or comparative language
+    3. Extract all distinct system proposals, even when presented as alternatives or secondary options
+    4. For each identified system option, record:
+      - Brand name
+      - Model number/series
+      - System type (split, packaged, ductless, etc.)
+      - Capacity/tonnage
+      - Efficiency rating (SEER, HSPF, AFUE)
+      - Price (if provided)
+    5. Present all options in a structured format, clearly distinguishing between different proposals
+    6. Flag any ambiguities where it's unclear if separate systems are being offered
+  }.freeze
+
   class << self
     def initialize(schema)
       # Try to get existing agent
@@ -30,7 +49,11 @@ class LlamaExtractAgent
       data = {
         name: AGENT_NAME,
         data_schema: schema,
-        config: { extraction_target: "PER_DOC", extraction_mode: "BALANCED" }
+        config: {
+          use_reasoning: true,
+          system_prompt: SYSTEM_PROMPT,
+          extraction_target: "PER_DOC",
+          extraction_mode: "BALANCED" }
       }
 
       response = make_request(:post, "extraction-agents", data)

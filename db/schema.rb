@@ -20,7 +20,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_17_195451) do
     t.string "name"
     t.text "parsed_result"
     t.jsonb "structured"
-    t.string "reference_url"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

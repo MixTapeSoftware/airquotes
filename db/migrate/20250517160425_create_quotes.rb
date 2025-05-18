@@ -6,7 +6,6 @@ class CreateQuotes < ActiveRecord::Migration[8.0]
       t.string :name
       t.text :md
       t.jsonb :structured
-      t.string :reference_url
 
       t.timestamps
     end
