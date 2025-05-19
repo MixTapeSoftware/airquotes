@@ -26,8 +26,8 @@ class QuoteProcessorWorkflow < Temporalio::Workflow::Definition
 
   def execute(quote_id)
     puts "Starting workflow for quote #{quote_id}"
-    begin
 
+    begin
       structured = Temporalio::Workflow::Future.new do
         structure_result = Temporalio::Workflow.execute_activity(
           StructureQuote,
