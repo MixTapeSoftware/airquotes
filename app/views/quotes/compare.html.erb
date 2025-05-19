@@ -33,11 +33,13 @@
                 <% @quotes.size.times do |i| %>
                 <div class="text-sm text-gray-500">
                     <% if datas[i] && datas[i]["quoted_packages"].present? %>
-                    <% datas[i]["quoted_packages"].each do |package| %>
-                    <%= render partial: 'quoted_package', locals: { package: package } %>
-                    <% end %>
+                      <% datas[i]["quoted_packages"].each do |package| %>
+                        <%= render partial: 'quoted_package', locals: { package: package } %>
+                      <% end %>
+                    <% elsif datas[i].present? %>
+                      No Data
                     <% else %>
-                    <span class="text-gray-400 italic">Processing quote...</span>
+                      <%= render 'spinner', size: "lg" %>
                     <% end %>
                 </div>
                 <% end %>
@@ -64,8 +66,10 @@
                 <div class="text-sm text-gray-500">
                     <% if datas[i] && datas[i][section].present? %>
                     <%= render partial: 'section_value', locals: { value: datas[i][section] } %>
+                    <% elsif datas[i].present? %>
+                    No Data
                     <% else %>
-                    <span class="text-gray-400 italic">Processing quote...</span>
+                    <%= render 'spinner', size: "sm" %>
                     <% end %>
                 </div>
                 <% end %>
