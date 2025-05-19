@@ -7,6 +7,7 @@ The HVAC Quotation Comparison Platform.
 - [asdf](https://asdf-vm.com/) - Version manager
 - Docker and Docker Compose
 - [Llama Cloud API Key](https://docs.cloud.llamaindex.ai/api_key) - Required for AI features
+- [Temporal CLI](https://temporal.io/setup/install-temporal-cli) - Required for workflow management
 
 ## Installation
 
@@ -30,7 +31,17 @@ asdf local ruby 3.2.3
 asdf local nodejs 20.11.1
 ```
 
-### 2. Install Rails and dependencies
+### 2. Install Temporal CLI
+
+```bash
+# Install Temporal CLI using Homebrew
+brew install temporal
+
+# Start Temporal development server
+temporal server start-dev
+```
+
+### 3. Install Rails and dependencies
 
 ```bash
 # Install Rails
@@ -46,7 +57,7 @@ yarn install
 rails db:create db:migrate
 ```
 
-### 3. Environment Setup
+### 4. Environment Setup
 
 ```bash
 # Export required environment variables
@@ -85,6 +96,7 @@ The application should now be running at http://localhost:3000
 - Rails server runs on http://localhost:3000
 - Docker services are configured in `docker-compose.yml`
 - Background jobs are processed by the Temporal worker
+- Temporal UI is available at http://localhost:8080
 
 ## Troubleshooting
 
@@ -103,5 +115,10 @@ If you encounter any issues:
 3. Verify the worker is running:
    ```bash
    ps aux | grep temporal:worker
+   ```
+
+4. Check Temporal server status:
+   ```bash
+   temporal server status
    ```
 
