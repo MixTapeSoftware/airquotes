@@ -146,9 +146,9 @@
                   "description": "Staging information (e.g., 2-stage cooling, variable speed)",
                   "nullable": true
                 },
-                "price": {
+                "amount": {
                   "type": "number",
-                  "description": "Price for this specific component if individually listed",
+                  "description": "Amount for this specific component if individually listed",
                   "nullable": true
                 }
               },
@@ -217,12 +217,12 @@
             },
             "nullable": true
           },
-          "package_price": {
+          "package_amount": {
             "type": "number",
-            "description": "Total price for this complete package"
+            "description": "Total amount for this complete package"
           }
         },
-        "required": ["description", "system_type", "package_price"]
+        "required": ["description", "system_type", "package_amount"]
       }
     },
     "additional_components": {
@@ -255,9 +255,9 @@
             "description": "Group identifier to associate with a specific option group",
             "nullable": true
           },
-          "price": {
+          "amount": {
             "type": "number",
-            "description": "Price for this specific component",
+            "description": "Amount for this specific component",
             "nullable": true
           }
         },
@@ -416,9 +416,9 @@
             "type": "string",
             "description": "Description of the optional item"
           },
-          "price": {
+          "amount": {
             "type": "number",
-            "description": "Price of the optional item"
+            "description": "Amount of the optional item"
           },
           "option_name": {
             "type": "string",
@@ -426,7 +426,7 @@
             "nullable": true
           }
         },
-        "required": ["description", "price"]
+        "required": ["description", "amount"]
       },
       "nullable": true
     },

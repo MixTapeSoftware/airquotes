@@ -1,0 +1,14 @@
+<% if value.is_a?(Hash) %>
+  <dl class="space-y-2">
+    <% value.each do |k, val| %>
+      <div class="bg-gray-50 p-2 rounded">
+        <dt class="text-xs font-medium text-gray-500"><%= k.to_s.titleize %></dt>
+        <dd class="mt-1 text-sm text-gray-900"><%= val %></dd>
+      </div>
+    <% end %>
+  </dl>
+<% else %>
+  <div class="bg-gray-50 p-2 rounded">
+    <%= value %>
+  </div>
+<% end %>

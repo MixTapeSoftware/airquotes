@@ -1,10 +1,13 @@
 class QuotesController < ApplicationController
+  include QuoteCompareHelpers
+  helper_method :needs_line_items_partial?, :array_of_line_items?, :hash_containing_line_items?
+
+
   def index
     @quotes = Quote.order(created_at: :desc)
   end
 
   def compare
-    Rails.logger.debug "Received quote_ids: #{params[:quote_ids].inspect}"
     @quotes = Quote.where(id: params[:quote_ids]).order(created_at: :desc)
     @sections = extract_comparison_sections(@quotes)
 
@@ -60,8 +63,8 @@ class QuotesController < ApplicationController
     # Extract all unique sections from the structured data
     sections = Set.new
     quotes.each do |quote|
-      next unless quote.structured
-      quote.structured.each do |section, _|
+      next unless quote.structured && quote.structured["data"]
+      quote.structured["data"].each do |section, _|
         sections.add(section)
       end
     end
