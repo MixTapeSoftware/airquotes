@@ -1,17 +1,16 @@
 <div>
-  <div>
     <div class="mb-8">
-      <div class="flex items-center justify-between">
-        <h1 class="text-3xl font-bold text-gray-900">Quote Comparison</h1>
-        <%= link_to "Back to Quotes", quotes_path, class: "inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
-      </div>
-      <p class="mt-2 text-sm text-gray-300">Comparing <%= @quotes.size %> quotes</p>
+        <div class="flex items-center justify-between">
+            <h1 class="text-3xl font-bold text-gray-900">Quote Comparison</h1>
+            <%= link_to "Back to Quotes", quotes_path, class: "inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
+        </div>
+        <p class="mt-2 text-sm text-gray-300">Comparing <%= @quotes.size %> quotes</p>
     </div>
 
     <% if @quotes.empty? %>
     <div class="bg-white shadow overflow-hidden sm:rounded-lg p-6 text-center">
-      <p class="text-gray-500">No quotes selected for comparison.</p>
-      <%= link_to "Select Quotes", quotes_path, class: "mt-4 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
+        <p class="text-gray-500">No quotes selected for comparison.</p>
+        <%= link_to "Select Quotes", quotes_path, class: "mt-4 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
     </div>
     <% else %>
     <% datas = @quotes.map { |q| q.structured && q.structured["data"] } %>
@@ -19,69 +18,57 @@
 
     <%# Quoted Packages Section %>
     <div class="bg-white shadow overflow-hidden sm:rounded-lg mb-8">
-      <div class="px-6 py-4 border-b border-gray-200">
-        <h2 class="text-xl font-bold text-gray-900">Quoted Packages</h2>
-      </div>
-      <div class="overflow-x-auto">
-        <table class="min-w-full divide-y divide-gray-200">
-          <thead class="bg-gray-50">
-            <tr>
-              <% @quotes.each do |quote| %>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"><%= quote.name %></th>
-              <% end %>
-            </tr>
-          </thead>
-          <tbody class="bg-white divide-y divide-gray-200">
-            <tr>
-              <% datas.each do |data| %>
-              <td class="px-6 py-4 text-sm text-gray-500 align-top">
-                <% if data && data["quoted_packages"].present? %>
-                <% data["quoted_packages"].each do |package| %>
-                <%= render partial: 'quoted_package', locals: { package: package } %>
+        <div class="px-6 py-4 border-b border-gray-200">
+            <h2 class="text-xl font-bold text-gray-900">Quoted Packages</h2>
+        </div>
+
+        <div class="px-6 py-4">
+            <div class="grid grid-cols-<%= @quotes.size %> gap-6">
+                <% @quotes.size.times do |i| %>
+                <div class="text-md font-medium text-gray-500 uppercase tracking-wider"><%=datas[i]["company_information"]["name"] %></div>
                 <% end %>
-                <% else %>
-                <span class="text-gray-400 italic">Not available</span>
+
+                <% @quotes.size.times do |i| %>
+                <div class="text-sm text-gray-500">
+                    <% if datas[i] && datas[i]["quoted_packages"].present? %>
+                    <% datas[i]["quoted_packages"].each do |package| %>
+                    <%= render partial: 'quoted_package', locals: { package: package } %>
+                    <% end %>
+                    <% else %>
+                    <span class="text-gray-400 italic">Not available</span>
+                    <% end %>
+                </div>
                 <% end %>
-              </td>
-              <% end %>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+            </div>
+        </div>
     </div>
 
     <%# Other Sections %>
     <% sections.each do |section| %>
     <div class="bg-white shadow overflow-hidden sm:rounded-lg mb-8">
-      <div class="px-6 py-4 border-b border-gray-200">
-        <h2 class="text-xl font-bold text-gray-900"><%= section.titleize %></h2>
-      </div>
-      <div class="overflow-x-auto">
-        <table class="min-w-full divide-y divide-gray-200">
-          <thead class="bg-gray-50">
-            <tr>
-              <% @quotes.each do |quote| %>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"><%= quote.name %></th>
-              <% end %>
-            </tr>
-          </thead>
-          <tbody class="bg-white divide-y divide-gray-200">
-            <tr>
-              <% datas.each do |data| %>
-              <td class="px-6 py-4 text-sm text-gray-500">
-                <% if data && data[section].present? %>
-                <%= render partial: 'section_value', locals: { value: data[section] } %>
-                <% else %>
-                <span class="text-gray-400 italic">Not available</span>
+        <div class="px-6 py-4 border-b border-gray-200">
+            <h2 class="text-xl font-bold text-gray-900"><%= section.titleize %></h2>
+        </div>
+
+        <div class="px-6 py-4">
+            <%= @quotes.size %>
+            <div class="grid grid-cols-<%= @quotes.size %> gap-4">
+                <% @quotes.size.times do |i| %>
+                  <div class="text-md font-medium text-gray-500 uppercase tracking-wider"><%=datas[i]["company_information"]["name"] %></div>
                 <% end %>
-              </td>
-              <% end %>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+
+                <% @quotes.size.times do |i| %>
+                <div class="text-sm text-gray-500">
+                    <% if datas[i] && datas[i][section].present? %>
+                    <%= render partial: 'section_value', locals: { value: datas[i][section] } %>
+                    <% else %>
+                    <span class="text-gray-400 italic">Not available</span>
+                    <% end %>
+                </div>
+                <% end %>
+            </div>
+        </div>
     </div>
     <% end %>
     <% end %>
-  </div>
 </div>

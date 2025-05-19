@@ -295,14 +295,6 @@
       },
       "nullable": true
     },
-    "scope_of_work": {
-      "type": "array",
-      "description": "Description of the work to be performed",
-      "items": {
-        "type": "string"
-      },
-      "nullable": true
-    },
     "pricing": {
       "type": "object",
       "description": "Pricing information for the estimate",
@@ -390,22 +382,6 @@
       },
       "nullable": true
     },
-    "included_items": {
-      "type": "array",
-      "description": "Items or services specifically included in the estimate",
-      "items": {
-        "type": "string"
-      },
-      "nullable": true
-    },
-    "excluded_items": {
-      "type": "array",
-      "description": "Items or services specifically excluded from the estimate",
-      "items": {
-        "type": "string"
-      },
-      "nullable": true
-    },
     "optional_items": {
       "type": "array",
       "description": "Optional items or services that can be added to the estimate",
@@ -433,34 +409,6 @@
     "cancellation_policy": {
       "type": "string",
       "description": "Description of the cancellation policy",
-      "nullable": true
-    },
-    "option_identifier": {
-      "type": "object",
-      "description": "Information to help identify which options belong together",
-      "properties": {
-        "option_groups": {
-          "type": "array",
-          "description": "Groups of related options presented in the estimate",
-          "items": {
-            "type": "object",
-            "properties": {
-              "group_name": {
-                "type": "string",
-                "description": "Name of the option group (e.g., 'Good/Better/Best' or 'Option A/B')"
-              },
-              "system_indices": {
-                "type": "array",
-                "description": "Indices of the systems in the quoted_packages array that belong to this group",
-                "items": {
-                  "type": "integer"
-                }
-              }
-            },
-            "required": ["group_name", "system_indices"]
-          }
-        }
-      },
       "nullable": true
     }
   },

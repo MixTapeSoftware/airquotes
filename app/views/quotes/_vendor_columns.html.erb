@@ -1,0 +1,7 @@
+<div class="grid grid-cols-<%= vendors.size %> gap-6">
+    <% vendors.each do |vendor| %>
+    <div class="text-md font-medium text-gray-500 uppercase tracking-wider">
+        <%= vendor["company_information"]["name"] %>
+    </div>
+    <% end %>
+</div>
