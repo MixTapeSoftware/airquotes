@@ -59,6 +59,8 @@ export default class extends Controller {
 
   async addFileToList(data) {
     const quotesList = document.getElementById("quotes-list");
+    const compareForm = document.getElementById("compare-form");
+    const selectedCount = document.getElementById("selected-count");
 
     try {
       const response = await fetch(`/quotes/${data.id}/quote_list_row`, {
@@ -74,6 +76,13 @@ export default class extends Controller {
         tempDiv.innerHTML = html;
         const fileElement = tempDiv.firstElementChild;
         quotesList.prepend(fileElement);
+        
+        // Show compare form and selection count if this is the first quote
+        if (quotesList.children.length === 1) {
+          compareForm.classList.remove('hidden');
+          compareForm.classList.add('block');
+          selectedCount.classList.remove('hidden');
+        }
         
         // Update the selection count after adding new quote
         const event = new Event('change');
@@ -113,6 +122,16 @@ export default class extends Controller {
           // Remove the quote row from the DOM
           const row = document.getElementById(`quote-${quoteId}`);
           if (row) row.remove();
+          
+          // Hide compare form and selection count if this was the last quote
+          const quotesList = document.getElementById("quotes-list");
+          if (quotesList.children.length === 0) {
+            const compareForm = document.getElementById("compare-form");
+            const selectedCount = document.getElementById("selected-count");
+            compareForm.classList.remove('block');
+            compareForm.classList.add('hidden');
+            selectedCount.classList.add('hidden');
+          }
         } else {
           alert("Failed to delete quote.");
         }

@@ -32,7 +32,16 @@
         <div class="bg-gray-50 p-3 w-full sm:w-auto flex-1 min-w-[220px] max-w-xs shadow-sm">
             <div class="font-semibold text-gray-800 mb-1"><%= equip["component_type"] %></div>
             <% if equip["brand"].present? %><div class="text-lg mb-2"><span class="font-medium"></span> <%= equip["brand"] %></div><% end %>
-            <% if equip["ahri_number"].present? %><div class="text-xs"><span class="font-medium">AHRI #:</span> <%= equip["ahri_number"] %></div><% end %>
+            <% if equip["ahri_number"].present? %>
+            <div class="text-xs">
+                <span class="font-medium">AHRI #:</span> 
+                <a href="https://ahridirectory.org/details/99/<%= equip["ahri_number"] %>" 
+                   target="_blank" 
+                   class="text-blue-600 hover:text-blue-800 hover:underline">
+                    <%= equip["ahri_number"] %>
+                </a>
+            </div>
+            <% end %>
             <div class="text-xs text-gray-600 mb-1"><%= equip["description"] %></div>
             <div class="text-xs"><span class="font-medium">Model:</span> <%= equip["model_number"] %></div>
             <% if equip["size"].present? %><div class="text-xs"><span class="font-medium">Size:</span> <%= equip["size"] %></div><% end %>
