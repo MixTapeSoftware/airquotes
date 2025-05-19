@@ -1,56 +1,53 @@
 <div class="min-h-screen">
-  <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
-    <div class="mb-8">
-      <h1 class="text-3xl font-bold text-gray-300">Upload Quotes</h1>
-      <p class="mt-2 text-sm text-gray-500">Upload and process quotes</p>
-    </div>
-
-    <%= render 'upload_form' %>
-
-    <div class="mt-8">
-      <div class="flex items-center justify-between mb-4">
-        <h2 class="text-lg font-medium text-gray-900">Your Quotes</h2>
-        <div class="flex items-center space-x-4">
-          <% if @quotes.any? %>
-            <span class="text-sm text-gray-500" id="selected-count">0 quotes selected</span>
-            <%= form_tag compare_quotes_path, method: :get, id: "compare-form" do %>
-              <button type="submit" 
-                      id="compare-button"
-                      class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
-                      disabled>
-                Compare Selected
-              </button>
-            <% end %>
-          <% end %>
+    <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+        <div class="mb-8">
+            <h1 class="text-3xl font-bold text-gray-300">Upload Quotes</h1>
+            <p class="mt-2 text-sm text-gray-500">Upload and process quotes</p>
         </div>
-      </div>
 
-      <div class="bg-white shadow overflow-hidden sm:rounded-lg">
-        <div id="quotes-list" class="divide-y divide-gray-200">
-          <%= render partial: 'quote_list_row', collection: @quotes, as: :quote %>
+        <%= render 'upload_form' %>
+
+        <div class="mt-8">
+            <div class="flex items-center justify-between mb-4">
+                <h2 class="text-lg font-medium text-gray-900">Your Quotes</h2>
+                <div class="flex items-center space-x-4">
+                    <% if @quotes.any? %>
+                    <span class="text-sm text-gray-500" id="selected-count">0 quotes selected</span>
+                    <%= form_tag compare_quotes_path, method: :get, id: "compare-form" do %>
+                    <button type="submit" id="compare-button" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+                        Compare Selected
+                    </button>
+                    <% end %>
+                    <% end %>
+                </div>
+            </div>
+
+            <div class="bg-white shadow overflow-hidden sm:rounded-lg">
+                <div id="quotes-list" class="divide-y divide-gray-200">
+                    <%= render partial: 'quote_list_row', collection: @quotes, as: :quote %>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
 </div>
 
 <script>
-  document.addEventListener('DOMContentLoaded', function() {
-    const checkboxes = document.querySelectorAll('.quote-checkbox');
-    const compareButton = document.querySelector('#compare-button');
-    const selectedCount = document.querySelector('#selected-count');
+    document.addEventListener('DOMContentLoaded', function() {
+        const checkboxes = document.querySelectorAll('.quote-checkbox');
+        const compareButton = document.querySelector('#compare-button');
+        const selectedCount = document.querySelector('#selected-count');
 
-    function updateSelection() {
-      const selected = document.querySelectorAll('.quote-checkbox:checked').length;
-      selectedCount.textContent = `${selected} quote${selected !== 1 ? 's' : ''} selected`;
-      compareButton.disabled = selected < 2;
-    }
+        function updateSelection() {
+            const selected = document.querySelectorAll('.quote-checkbox:checked').length;
+            selectedCount.textContent = `${selected} quote${selected !== 1 ? 's' : ''} selected`;
+            compareButton.disabled = selected < 2;
+        }
 
-    checkboxes.forEach(checkbox => {
-      checkbox.addEventListener('change', updateSelection);
+        checkboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', updateSelection);
+        });
+
+        // Initial update
+        updateSelection();
     });
-
-    // Initial update
-    updateSelection();
-  });
 </script>
