@@ -347,36 +347,6 @@
       },
       "required": ["total"]
     },
-    "financing_options": {
-      "type": "array",
-      "description": "Information about financing options",
-      "items": {
-        "type": "object",
-        "properties": {
-          "term_months": {
-            "type": "integer",
-            "description": "Financing term in months"
-          },
-          "interest_rate": {
-            "type": "number",
-            "description": "Financing interest rate",
-            "nullable": true
-          },
-          "estimated_payment": {
-            "type": "number",
-            "description": "Estimated monthly payment amount",
-            "nullable": true
-          },
-          "option_name": {
-            "type": "string",
-            "description": "Identifier for which system option this financing applies to (if applicable)",
-            "nullable": true
-          }
-        },
-        "required": ["term_months"]
-      },
-      "nullable": true
-    },
     "optional_items": {
       "type": "array",
       "description": "Optional items or services that can be added to the estimate",
