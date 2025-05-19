@@ -20,6 +20,7 @@ Rails.application.routes.draw do
     end
     member do
       get :quote_item
+      get :quote_list_row
     end
   end
 end

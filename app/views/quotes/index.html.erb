@@ -12,7 +12,7 @@
         <h2 class="text-lg font-medium text-gray-900">Your Quotes</h2>
         <div class="flex items-center space-x-4">
           <% if @quotes.any? %>
-          <span class="text-sm text-gray-500" id="selected-count">0 quotes selected</span>
+            <span class="text-sm text-gray-500" id="selected-count">0 quotes selected</span>
             <%= form_tag compare_quotes_path, method: :get, id: "compare-form" do %>
               <button type="submit" 
                       id="compare-button"
@@ -26,19 +26,8 @@
       </div>
 
       <div class="bg-white shadow overflow-hidden sm:rounded-lg">
-        <div class="divide-y divide-gray-200">
-          <% @quotes.each do |quote| %>
-            <div class="p-4 hover:bg-gray-50">
-              <div class="flex items-center space-x-4">
-                <input type="checkbox" 
-                       name="quote_ids[]" 
-                       value="<%= quote.id %>" 
-                       class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded quote-checkbox"
-                       form="compare-form">
-                <%= render 'quote_item', quote: quote %>
-              </div>
-            </div>
-          <% end %>
+        <div id="quotes-list" class="divide-y divide-gray-200">
+          <%= render partial: 'quote_list_row', collection: @quotes, as: :quote %>
         </div>
       </div>
     </div>

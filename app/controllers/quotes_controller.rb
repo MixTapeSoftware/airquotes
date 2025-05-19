@@ -57,6 +57,11 @@ class QuotesController < ApplicationController
     render partial: "quote_item", locals: { quote: @quote }, formats: [ :html ]
   end
 
+  def quote_list_row
+    @quote = Quote.find(params[:id])
+    render partial: "quote_list_row", locals: { quote: @quote }, formats: [ :html ]
+  end
+
   private
 
   def extract_comparison_sections(quotes)

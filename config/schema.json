@@ -39,11 +39,6 @@
       },
       "required": ["name"]
     },
-    "customer_zip_code": {
-      "type": "string",
-      "description": "Customer's zip code for location-based analysis",
-      "nullable": true
-    },
     "estimate_information": {
       "type": "object",
       "description": "Basic information about the estimate itself",

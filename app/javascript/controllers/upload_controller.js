@@ -58,12 +58,13 @@ export default class extends Controller {
   }
 
   async addFileToList(data) {
-    const uploadedFiles = document.getElementById("uploaded-files");
+    const quotesList = document.getElementById("quotes-list");
 
     try {
-      const response = await fetch(`/quotes/${data.id}/quote_item`, {
+      const response = await fetch(`/quotes/${data.id}/quote_list_row`, {
         headers: {
           Accept: "text/html",
+          "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]').content
         },
       });
 
@@ -72,12 +73,16 @@ export default class extends Controller {
         const tempDiv = document.createElement("div");
         tempDiv.innerHTML = html;
         const fileElement = tempDiv.firstElementChild;
-        uploadedFiles.prepend(fileElement);
+        quotesList.prepend(fileElement);
+        
+        // Update the selection count after adding new quote
+        const event = new Event('change');
+        document.querySelector('.quote-checkbox').dispatchEvent(event);
       } else {
-        console.error("Failed to fetch quote item HTML");
+        console.error("Failed to fetch quote list row HTML");
       }
     } catch (error) {
-      console.error("Error fetching quote item HTML:", error);
+      console.error("Error fetching quote list row HTML:", error);
     }
   }
 
