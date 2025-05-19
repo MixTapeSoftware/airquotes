@@ -62,6 +62,14 @@ class QuotesController < ApplicationController
     render partial: "quote_list_row", locals: { quote: @quote }, formats: [ :html ]
   end
 
+  def status
+    @quote = Quote.find(params[:id])
+    render json: {
+      processed: @quote.structured.present?,
+      structured_data: @quote.structured
+    }
+  end
+
   private
 
   def extract_comparison_sections(quotes)

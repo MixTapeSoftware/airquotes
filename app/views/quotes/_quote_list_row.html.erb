@@ -1,11 +1,12 @@
-<div class="p-4 hover:bg-gray-50">
+<div class="p-4 hover:bg-gray-100" data-quote-id="<%= quote.id %>">
     <div class="flex items-center justify-between">
         <div class="flex items-center space-x-4">
-            <input type="checkbox" name="quote_ids[]" value="<%= quote.id %>" class="h-10 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded quote-checkbox" form="compare-form">
-            <%= render 'quote_item', quote: quote %>
-            <% unless quote.structured.present? %>
-                <%= render 'spinner', size: "sm", container_class: "flex-shrink-0" %>
+            <% if quote.structured.present? %>
+              <input type="checkbox" name="quote_ids[]" value="<%= quote.id %>" class="h-10 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded quote-checkbox bg-gray-300 color-blue-500" form="compare-form">
+            <% else %>
+              <%= render 'spinner', size: "sm", container_class: "flex-shrink-0", quote_id: quote.id %>
             <% end %>
+            <%= render 'quote_item', quote: quote %>
         </div>
         <%= form_tag quote_path(quote), method: :delete, id: "delete-quote-#{quote.id}", class: "hidden" do %>
         <% end %>

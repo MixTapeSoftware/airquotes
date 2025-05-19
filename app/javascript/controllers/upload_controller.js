@@ -76,14 +76,14 @@ export default class extends Controller {
         tempDiv.innerHTML = html;
         const fileElement = tempDiv.firstElementChild;
         quotesList.prepend(fileElement);
-        
+
         // Show compare form and selection count if this is the first quote
         if (quotesList.children.length === 1) {
           compareForm.classList.remove('hidden');
           compareForm.classList.add('block');
           selectedCount.classList.remove('hidden');
         }
-        
+
         // Update the selection count after adding new quote
         const event = new Event('change');
         document.querySelector('.quote-checkbox').dispatchEvent(event);

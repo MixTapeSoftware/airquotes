@@ -39,7 +39,7 @@
                     <% elsif datas[i].present? %>
                       No Data
                     <% else %>
-                      <%= render 'spinner', size: "lg" %>
+                      <%= render 'spinner', size: "lg", quote_id: @quotes[i].id %>
                     <% end %>
                 </div>
                 <% end %>
@@ -69,7 +69,7 @@
                     <% elsif datas[i].present? %>
                     No Data
                     <% else %>
-                    <%= render 'spinner', size: "sm" %>
+                    <%= render 'spinner', size: "sm", quote_id: @quotes[i].id %>
                     <% end %>
                 </div>
                 <% end %>

@@ -1,10 +1,5 @@
-<div class="min-h-screen">
+<div class="min-h-screen flex justify-center">
     <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
-        <div class="mb-8">
-            <h1 class="text-3xl font-bold text-gray-300">"AirQuotes"</h1>
-            <p class="mt-2 text-sm text-gray-500">Upload and compare HVAC Quotes</p>
-        </div>
-
         <%= render 'upload_form' %>
 
         <div class="mt-8">
@@ -29,7 +24,7 @@
                 </div>
             </div>
 
-            <div class="bg-white shadow overflow-hidden sm:rounded-lg">
+            <div class="bg-gray-200 shadow overflow-hidden sm:rounded-lg">
                 <div id="quotes-list" class="divide-y divide-gray-200">
                     <%= render partial: 'quote_list_row', collection: @quotes, as: :quote %>
                 </div>

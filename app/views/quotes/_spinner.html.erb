@@ -3,22 +3,23 @@
   - size: "sm" (default) or "lg" for different sizes
   - text: Custom text to show (defaults to "Processing...")
   - container_class: Additional classes for the container div
+  - quote_id: The ID of the quote being processed
 %>
 
 <%
   size = local_assigns[:size] || "sm"
-  text = local_assigns[:text] || "Processing..."
   container_class = local_assigns[:container_class] || ""
+  quote_id = local_assigns[:quote_id]
   
   spinner_size = size == "lg" ? "h-8 w-8" : "h-6 w-6"
   text_size = size == "lg" ? "text-lg" : "text-sm"
-  padding = size == "lg" ? "p-8" : "p-4"
 %>
 
-<div class="flex items-center justify-center <%= padding %> text-blue-600 <%= container_class %>">
+<div class="flex items-center justify-center text-blue-600 <%= container_class %>"
+     data-controller="quote-status"
+     <%= "data-quote-status-quote-id-value=#{quote_id}" if quote_id %>>
   <svg class="animate-spin <%= spinner_size %> mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
     <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
     <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
   </svg>
-  <span class="<%= text_size %>"><%= text %></span>
 </div> 

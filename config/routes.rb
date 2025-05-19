@@ -10,7 +10,7 @@ Rails.application.routes.draw do
   # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
 
   # Defines the root path route ("/")
-  root "quotes#index"
+  root "home#index"
 
   # Quotes routes
   resources :quotes, only: [ :index, :destroy ] do
@@ -21,6 +21,7 @@ Rails.application.routes.draw do
     member do
       get :quote_item
       get :quote_list_row
+      get :status
     end
   end
 end
