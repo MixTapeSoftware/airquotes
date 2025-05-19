@@ -25,7 +25,9 @@
         <div class="px-6 py-4">
             <div class="grid grid-cols-<%= @quotes.size %> gap-6">
                 <% @quotes.size.times do |i| %>
-                <div class="text-md font-medium text-gray-500 uppercase tracking-wider"><%=datas[i]["company_information"]["name"] %></div>
+                <div class="text-md font-medium text-gray-500 uppercase tracking-wider">
+                    <%= datas[i]&.dig("company_information", "name") || @quotes[i].name || "Quote #{i + 1}" %>
+                </div>
                 <% end %>
 
                 <% @quotes.size.times do |i| %>
@@ -35,7 +37,7 @@
                     <%= render partial: 'quoted_package', locals: { package: package } %>
                     <% end %>
                     <% else %>
-                    <span class="text-gray-400 italic">Not available</span>
+                    <span class="text-gray-400 italic">Processing quote...</span>
                     <% end %>
                 </div>
                 <% end %>
@@ -51,10 +53,11 @@
         </div>
 
         <div class="px-6 py-4">
-            <%= @quotes.size %>
             <div class="grid grid-cols-<%= @quotes.size %> gap-4">
                 <% @quotes.size.times do |i| %>
-                  <div class="text-md font-medium text-gray-500 uppercase tracking-wider"><%=datas[i]["company_information"]["name"] %></div>
+                <div class="text-md font-medium text-gray-500 uppercase tracking-wider">
+                    <%= datas[i]&.dig("company_information", "name") || @quotes[i].name || "Quote #{i + 1}" %>
+                </div>
                 <% end %>
 
                 <% @quotes.size.times do |i| %>
@@ -62,7 +65,7 @@
                     <% if datas[i] && datas[i][section].present? %>
                     <%= render partial: 'section_value', locals: { value: datas[i][section] } %>
                     <% else %>
-                    <span class="text-gray-400 italic">Not available</span>
+                    <span class="text-gray-400 italic">Processing quote...</span>
                     <% end %>
                 </div>
                 <% end %>
